@@ -48,11 +48,9 @@
     "@metamask/sdk": "^0.1.0",
     "@tradle/react-native-http": "^2.0.0",
     "@walletconnect/client": "^1.7.7",
-    "alchemy-sdk": "^2.9.1",
-    "big-integer": "^1.6.51",
     "crypto": "^1.0.1",
     "ethers": "^5.7.0",
-    "events": "^1.0.0",
+    "events": "^3.3.0",
     "process": "^0.11.10",
     "react": "17.0.2",
     "react-native": "0.67.3",
@@ -64,8 +62,7 @@
     "rn-nodeify": "^10.3.0",
     "stream": "^0.0.2",
     "stream-browserify": "^1.0.0",
-    "url": "~0.10.1",
-    "web3": "^4.0.1"
+    "url": "~0.10.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

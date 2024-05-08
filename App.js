@@ -24,27 +24,6 @@ import MetaMaskSDK from '@metamask/sdk';
 
 import {ethers} from 'ethers';
 
-//import Web3 from 'web3';
-
-
-////////
-
-import  EWordContractt  from './utils/EWordEngContract.json';
-
-const ewordEngContract = "0x76d9c26896A069f481efCDe2d3E0C706dAC2A9BB"
-
-// const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
-// var Contract = require('web3-eth-contract');
-
-////////
-
-
-
-
-
-
-
-
 const sdk = new MetaMaskSDK({
   openDeeplink: link => {
     Linking.openURL(link);
@@ -77,77 +56,6 @@ const App: () => Node = () => {
     fontSize: 16,
   };
 
-  let network;
-  const PRIVATE_KEY = "d6a736bafc7f7a6ec508475555533eae388590c4d16748afee99f615ff7908dd";
-
-  const alchemyProvider = new ethers.providers.AlchemyProvider(network="goerli", "wss://eth-goerli.g.alchemy.com/v2/1NkuHJk9fySa1xwgPZ21rwqkGJbh_9Cm");
-
-
-  const signer = new ethers.Wallet(PRIVATE_KEY, alchemyProvider);
-
-  const ewordcontract = new ethers.Contract(ewordEngContract, EWordContractt.abi, signer);
-     // console.log(ewordcontract);
-
-  const getContract = async () => {
-
-    // const ewordcontract = new ethers.Contract(ewordEngContract, EWordContractt.abi, signer);
-
-    try {
-
-      const ewordcontract = new ethers.Contract(ewordEngContract, EWordContractt.abi, signer);
-      console.log(ewordcontract);
-
-      
-    } catch (error) {
-      console.log("error", error);
-    }
-
-  }
-
-
-  const sendWord = async () => {
-    console.log("sendWord");
-    let provider;
-
-    // Contract.setProvider('wss://eth-goerli.g.alchemy.com/v2/1NkuHJk9fySa1xwgPZ21rwqkGJbh_9Cm');
-    // const contractt = new Contract(EWordContractt.abi, ewordEngContract);         
-    // console.log("engwordss_contract", contractt);
-
-    // const alchemyProvider = new ethers.providers.AlchemyProvider(network="goerli", "1NkuHJk9fySa1xwgPZ21rwqkGJbh_9Cm");
-   ///////  const alchemyProvider = new ethers.providers.AlchemyProvider(network="goerli", "wss://eth-goerli.g.alchemy.com/v2/1NkuHJk9fySa1xwgPZ21rwqkGJbh_9Cm");
-
-   try {
-     console.log("alchemyProvider", alchemyProvider);
-
-     const signer = new ethers.Wallet(PRIVATE_KEY, alchemyProvider);
-
-     console.log("signer", signer);
-
-    
-    //  const tx = await ewordEngContract.addEWord("varierty","/vəˈraɪəti/","several different sorts of the same thing");
-    const tx = await ewordcontract.addEWord("varierty","/vəˈraɪəti/","several different sorts of the same thing");
-
-
-          await tx.wait();
-
-
-   } catch (error) {
-    console.log("error", error);
-   }
-    
-    //const alchemyProvider = new ethers.providers.AlchemyProvider("wss://eth-goerli.g.alchemy.com/v2/1NkuHJk9fySa1xwgPZ21rwqkGJbh_9Cm");
-
-    //////provider = new ethers.providers.getDefaultProvider();
-
-    //////console.log("alchey_provider". provider);
-
-
-
-      console.log("alchey_provider". alchemyProvider);
-
-
-  }
-
   const getBalance = async () => {
     if (!ethereum.selectedAddress) {
       return;
@@ -157,11 +65,6 @@ const App: () => Node = () => {
   };
 
   useEffect(() => {
-
-
-   
-
-
     ethereum.on('chainChanged', chain => {
       console.log(chain);
       setChain(chain);
@@ -285,12 +188,16 @@ const App: () => Node = () => {
     setResponse(resp);
   };
 
+
   const sendTransaction = async () => {
-    const to = '0x0000000000000000000000000000000000000000';
+    // 0xA74da19113bC8493b64988B2f87B4f57cd95dfc0
+    // const to = '0x0000000000000000000000000000000000000000';
+    const to = '0xA74da19113bC8493b64988B2f87B4f57cd95dfc0';
     const transactionParameters = {
       to, // Required except during contract publications.
       from: ethereum.selectedAddress, // must match user's active address.
-      value: '0x5AF3107A4000', // Only required to send ether to the recipient from the initiating external account.
+      // value: '0x5AF3107A4000', // Only required to send ether to the recipient from the initiating external account.
+        value: '0x000000000001',
     };
 
     try {
@@ -307,6 +214,34 @@ const App: () => Node = () => {
     }
   };
 
+
+
+
+  // const sendTransaction = async () => {
+  //   // 0xA74da19113bC8493b64988B2f87B4f57cd95dfc0
+  //   // const to = '0x0000000000000000000000000000000000000000';
+  //   const to = '0xA74da19113bC8493b64988B2f87B4f57cd95dfc0';
+  //   const transactionParameters = {
+  //     to, // Required except during contract publications.
+  //     from: ethereum.selectedAddress, // must match user's active address.
+  //     // value: '0x5AF3107A4000', // Only required to send ether to the recipient from the initiating external account.
+  //       value: '0x000000000001',
+  //   };
+
+  //   try {
+  //     // txHash is a hex string
+  //     // As with any RPC call, it may throw an error
+  //     const txHash = await ethereum.request({
+  //       method: 'eth_sendTransaction',
+  //       params: [transactionParameters],
+  //     });
+
+  //     setResponse(txHash);
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -317,9 +252,6 @@ const App: () => Node = () => {
         <Button title="Sign" onPress={sign} />
         <Button title="Send transaction" onPress={sendTransaction} />
         <Button title="Add chain" onPress={exampleRequest} />
-
-        <Button title="Send Word" onPress={sendWord} />
-        <Button title="Get Contract" onPress={getContract} />
 
         <Text style={textStyle}>{chain && `Connected chain: ${chain}`}</Text>
         <Text style={textStyle}>
